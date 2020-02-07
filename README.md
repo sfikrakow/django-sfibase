@@ -9,7 +9,7 @@ Common base for all SFI projects based on Django.
 * Perfectionist's touches (e.g. l10n fixes)
 
 ## Usage
-1. `pip install `
+1. `pip install -e git+https://git.sfi.pl/scm/djbase/django-sfibase.git#egg=django-sfibase`
 2. In your `settings.py`:
    * At the top, add:
      ```python
