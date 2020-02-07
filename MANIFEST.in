@@ -1,0 +1,4 @@
+include LICENSE
+include README.md
+recursive-include sfi_base/static *
+recursive-include sfi_base/templates *
