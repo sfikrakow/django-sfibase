@@ -1,38 +1,41 @@
 {% load static %}
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="h-100">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>{% block title %}{% endblock %} | SFI</title>
-    <link rel="stylesheet" href="https://static.sfi.pl/sfibase/css/bootstrap-d1d2d32db1e6a31f1ffafc93f289252f.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://static.sfi.pl/sfibase/css/bootstrap-d1d2d32db1e6a31f1ffafc93f289252f.min.css"
+          crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
-    <link href="{% static "css/base.css" %}" rel="stylesheet">
+    <link href="{% static 'css/base.css' %}" rel="stylesheet">
 </head>
-<body>
-<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-    <a class="navbar-brand" href="#">SFI</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
-            aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
+<body class="d-flex flex-column h-100">
+<header>
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+        <a class="navbar-brand" href="/">{% block app_name %}SFI{% endblock %}</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainNavbar"
+                aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
-        <ul class="navbar-nav mr-auto">
-            {% block navbar %}
-            {% endblock %}
-        </ul>
-        <ul class="navbar-nav my-2 my-lg-0">
-            {% if user.is_authenticated %}
+        <div class="collapse navbar-collapse" id="mainNavbar">
+            <ul class="navbar-nav mr-auto">
+                {% block navbar %}
+                {% endblock %}
+            </ul>
+            <ul class="navbar-nav my-2 my-lg-0">
+                {% if user.is_authenticated %}
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="nav_dropdown"
                        role="button" data-toggle="dropdown" aria-haspopup="true"
                        aria-expanded="false">
                         {% if request.user.last_name %}
-                            {{ request.user.first_name }}
-                            {{ request.user.last_name }}
+                        {{ request.user.first_name }}
+                        {{ request.user.last_name }}
                         {% else %}
-                            {{ request.user }}
+                        {{ request.user }}
                         {% endif %}
                     </a>
                     <div class="dropdown-menu dropdown-menu-right"
@@ -44,9 +47,9 @@
 
                         <div class="dropdown-divider"></div>
                         {% if user.is_staff %}
-                            <a class="dropdown-item" href="{% url 'admin:index' %}">
-                                Panel administracyjny
-                            </a>
+                        <a class="dropdown-item" href="{% url 'admin:index' %}">
+                            Panel administracyjny
+                        </a>
                         {% endif %}
                         <a class="dropdown-item" href="https://sso.sfi.pl/auth/realms/public/account/">Moje konto</a>
                         <form class="form-inline" name="logoutForm" action="{% url 'oidc_logout' %}" method="post">
@@ -55,24 +58,37 @@
                         </form>
                     </div>
                 </li>
-            {% else %}
+                {% else %}
                 <li class="nav-item">
                     <a href="{% url 'oidc_authentication_init' %}" class="btn btn-outline-success my-2 my-sm-0"
                        role="button">Zaloguj się</a>
                 </li>
-            {% endif %}
-        </ul>
-    </div>
-</nav>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+</header>
 
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
         integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
         crossorigin="anonymous"></script>
 
-<main role="main" class="container" id="content">
-    {% block content %}
-    {% endblock %}
+<main role="main" class="flex-shrink-0">
+    <div class="container" id="content">
+        {% block content %}
+        {% endblock %}
+    </div>
 </main>
+
+<footer class="footer mt-auto py-3 mt-2 bg-dark">
+    <div class="container text-center">
+        <a href="https://sfi.pl/" class="text-decoration-none">
+            <img class="mt-2 mb-3" src="https://static.sfi.pl/sfibase/img/logo-ab97d46bc66b29b9e10b830ae8403884.png"
+                 style="height: 5em;" alt="sfi logo">
+            <div class="text-muted">Copyright 2019-{{ now 'Y' }} Studencki Festiwal Informatyczny</div>
+        </a>
+    </div>
+</footer>
 
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
         integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
