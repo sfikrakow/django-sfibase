@@ -27,6 +27,7 @@ Common base for all SFI projects based on Django.
      ```python
      MIDDLEWARE = [
          ...
+         'mozilla_django_oidc.middleware.SessionRefresh',
          'sfi_base.middleware.TryAuthenticateMiddleware',
          'sfi_base.middleware.ForceAdminInEnglish',
      ]
@@ -40,7 +41,9 @@ Common base for all SFI projects based on Django.
      ```
 3. In your `urls.py`, add:
    ```python
-   path('oidc/', include('sfi_base.urls')),
+    path('admin/login/', OIDCAuthenticateClass.as_view()),
+    # admin site urls
+    path('oidc/', include('sfi_base.urls')),
    ```
 4. In your base template file, use:
    ```djangotemplate
