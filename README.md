@@ -41,11 +41,21 @@ Common base for all SFI projects based on Django.
      ```
 3. In your `urls.py`, add:
    ```python
-    path('admin/login/', OIDCAuthenticateClass.as_view()),
-    # admin site urls
-    path('oidc/', include('sfi_base.urls')),
+    from django.urls import include
+    from mozilla_django_oidc.urls import OIDCAuthenticateClass
+
+    urlpatterns = [
+        ...
+        path('admin/login/', OIDCAuthenticateClass.as_view()),
+        # admin site urls
+        path('oidc/', include('sfi_base.urls')),
+        ...
+    ]
    ```
 4. In your base template file, use:
    ```djangotemplate
    {% extends "sfi_base/base.html" %}
    ```
+
+Please note that you need to run your development server using port 8000 -
+otherwise SSO won't allow you to sign in.
